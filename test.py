@@ -22,13 +22,20 @@ class TestInfoEndpoints(unittest.TestCase):
 
 		symbol = 'BTCUSDT'
 		priceDict = binanceWrapper.symbolPrice(symbol)
-		self.assertIs(priceDict['symbol'], symbol)
+		self.assertEqual(priceDict['symbol'], symbol)
 
 	def testSymbolLastKlines(self):
 		symbol = 'BTCUSDT'
 		res = binanceWrapper.symbolLastKlines(symbol, '1m')
 		self.assertIs(type(res), list)
-		self.assertIs(len(res), 500)
+		self.assertEqual(len(res), 500)
+
+		res = binanceWrapper.symbolLastKlines(symbol, '1m', 10)
+		self.assertEqual(len(res), 10)
+
+	
+
+	
 
 
 
