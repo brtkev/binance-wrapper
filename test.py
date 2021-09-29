@@ -14,6 +14,14 @@ class TestBinanceWrapper(unittest.TestCase):
 	def test_requestError(self):
 		binanceWrapper._requestError("response text", 0, {"params" : "some info"})
 
+class TestInfoEndpoints(unittest.TestCase):
+
+	def testSymbolPrice(self):
+		self.assertIs(type(binanceWrapper.symbolPrice()), list)
+
+		symbol = 'BTCUSDT'
+		priceDict = binanceWrapper.symbolPrice(symbol)
+		self.assertIs(priceDict['symbol'], symbol)
 
 
 
