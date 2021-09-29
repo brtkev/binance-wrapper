@@ -17,11 +17,18 @@ class TestBinanceWrapper(unittest.TestCase):
 class TestInfoEndpoints(unittest.TestCase):
 
 	def testSymbolPrice(self):
-		self.assertIs(type(binanceWrapper.symbolPrice()), list)
+		priceDict = binanceWrapper.symbolPrice()
+		self.assertIs(type(priceDict), list)
 
 		symbol = 'BTCUSDT'
 		priceDict = binanceWrapper.symbolPrice(symbol)
 		self.assertIs(priceDict['symbol'], symbol)
+
+	def testSymbolLastKlines(self):
+		symbol = 'BTCUSDT'
+		res = binanceWrapper.symbolLastKlines(symbol, '1m')
+		self.assertIs(type(res), list)
+		self.assertIs(len(res), 500)
 
 
 
