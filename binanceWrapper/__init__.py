@@ -42,7 +42,7 @@ def _makeRequest(method: str, url: str, params=None, **kwargs):
           if response.status_code == 200:
               return response.json()
           else:
-              _requestError(response, response.json()['code'], params)
+              return _requestError(response, response.json()['code'], params)
 
       except requests.Timeout:
           continue
