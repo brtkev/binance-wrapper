@@ -20,6 +20,12 @@ def symbolPrice( symbol = ''):
 def symbolLastKlines(symbol : str, interval, limit : int = 500):
     """
     Last (500) price bars
+    TIME
+    OPEN
+    HIGH
+    LOW
+    CLOSE
+    VOLUMEN
     """
     path = "/api/v3/klines"
     keyload = {
@@ -28,3 +34,8 @@ def symbolLastKlines(symbol : str, interval, limit : int = 500):
         'limit' : limit
     }
     return _makeRequest('GET', f"{API_PATH}{path}", params=keyload)        
+
+def server_time():
+    path = "/api/v3/time"
+        
+    return _makeRequest('GET', f"{API_PATH}{path}")

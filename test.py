@@ -33,7 +33,9 @@ class TestInfoEndpoints(unittest.TestCase):
 		res = binanceWrapper.symbolLastKlines(symbol, '1m', 10)
 		self.assertEqual(len(res), 10)
 
-	
+	def testServerTime(self):
+		res = binanceWrapper.server_time()
+		print(res)
 
 	
 
