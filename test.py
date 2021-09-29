@@ -35,7 +35,7 @@ class TestInfoEndpoints(unittest.TestCase):
 
 	def testServerTime(self):
 		res = binanceWrapper.server_time()
-		print(res)
+		self.assertIn('serverTime', res)
 
 	
 

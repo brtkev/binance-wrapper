@@ -36,6 +36,10 @@ def symbolLastKlines(symbol : str, interval, limit : int = 500):
     return _makeRequest('GET', f"{API_PATH}{path}", params=keyload)        
 
 def server_time():
+    """
+    response:
+    {'serverTime': miliseconds}
+    """
     path = "/api/v3/time"
         
     return _makeRequest('GET', f"{API_PATH}{path}")
