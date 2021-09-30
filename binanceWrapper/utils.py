@@ -2,6 +2,23 @@ import requests, json, logging
 from binanceWrapper.exceptions import *
 API_PATH = "https://api.binance.com"
 
+class Key:
+    
+    def __init__(self, value : str = "") -> None:
+        self.__value = value
+    
+    def set(self, value : str) -> None:
+        self.__value = value
+
+    def get(self) -> str:
+        if self.__value == "":
+            raise BinanceKeyError("Empty Key Error: You need to asign a valid key using Key.set('your-key')")
+        return self.__value
+
+class Keys:
+    API = Key('')
+    SECRET = Key('')
+
 
 def ping():
     path = "/api/v3/ping"
