@@ -1,7 +1,16 @@
+from binanceWrapper.info import accountCoins
 import unittest, binanceWrapper
 
 
 class TestInfoEndpoints(unittest.TestCase):
+
+	@classmethod
+	def setUp(cls):
+		import json
+		with open('keys.json', 'r') as f:
+			keys = json.loads(f.read())
+			binanceWrapper.Keys.API.set(keys['API'])
+			binanceWrapper.Keys.SECRET.set(keys['SECRET'])
 
 	def testSymbolPrice(self):
 		priceDict = binanceWrapper.symbolPrice()
@@ -25,4 +34,9 @@ class TestInfoEndpoints(unittest.TestCase):
 		self.assertIn('serverTime', res)
 
 	def testAccountCoints(self):
-		binanceWrapper.accountCoins()	
+		accCoins = binanceWrapper.accountCoins()
+		self.assertEqual(type(accCoins), list)
+		for coin in accCoins:
+			with self.subTest(coin = coin):
+				self.assertEqual(type(coin), dict)
+			

@@ -13,6 +13,7 @@ class TestUtils(unittest.TestCase):
 	def test_requestError(self):
 		binanceWrapper._requestError("response text", 0, {"params" : "some info"})
 
+@unittest.skip
 class TestKeys(unittest.TestCase):
 	@classmethod
 	def setUp(cls):
