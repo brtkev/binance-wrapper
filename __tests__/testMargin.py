@@ -1,15 +1,13 @@
-import binanceWrapper
+import binanceWrapper, os
 import unittest
+from dotenv import load_dotenv
 
 class TestMarginEndpoints(unittest.TestCase):
 
-	@classmethod
 	def setUp(cls):
-		import json
-		with open('keys.json', 'r') as f:
-			keys = json.loads(f.read())
-			binanceWrapper.Keys.API.set(keys['API'])
-			binanceWrapper.Keys.SECRET.set(keys['SECRET'])
+			load_dotenv()
+			binanceWrapper.Keys.API.set(os.getenv('APIKEY'))
+			binanceWrapper.Keys.SECRET.set(os.getenv('SECRETKEY'))
 
 	def testMarginAccount(self):
 		self.assertEqual(type(binanceWrapper.marginAccount()), dict)
