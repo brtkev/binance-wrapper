@@ -3,8 +3,7 @@ Binance Exchange API wrapper, this is for personal use, if you have any question
 
 ## Install
 ```
-  git clone https://github.com/brtkev/binance-wrapper
-  pip install .
+  pip install git+https://github.com/brtkev/binance-wrapper
 ```
 
 ## TESTING
