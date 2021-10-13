@@ -1,5 +1,5 @@
 # binance-wrapper
-Binance Exchange API wrapper
+Binance Exchange API wrapper, this is for personal use, if you have any questions you can ask me direcly
 
 ## Install
 ```
