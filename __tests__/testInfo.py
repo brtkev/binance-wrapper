@@ -1,7 +1,6 @@
 from binanceWrapper.info import accountCoins
 import unittest, binanceWrapper
 
-@unittest.skip
 class TestInfoEndpoints(unittest.TestCase):
 
 	@classmethod
