@@ -236,7 +236,7 @@ def payDebts(asset=None):
                 marginRepay(asset['asset'], asset['borrowed'])
 
 
-def margin_balance():
+def marginBalance():
 	from binanceWrapper.info import symbolPrice
 	marginAcc = marginAccount()
 	btcPrice = symbolPrice('BTCUSDT')

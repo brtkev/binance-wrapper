@@ -6,10 +6,12 @@ class TestMarginEndpoints(unittest.TestCase):
 
 	def setUp(cls):
 			load_dotenv()
-			binanceWrapper.Keys.API.set(os.getenv('APIKEY'))
-			binanceWrapper.Keys.SECRET.set(os.getenv('SECRETKEY'))
+			binanceWrapper.setKeys(os.getenv('APIKEY'), os.getenv('SECRETKEY'))
 
 	def testMarginAccount(self):
 		self.assertEqual(type(binanceWrapper.marginAccount()), dict)
 
-	
+	def testMarginBalance(self):
+		res = binanceWrapper.marginBalance()
+		self.assertEqual(type(res), float)
+		print(f"Binance Balance: {res}")
