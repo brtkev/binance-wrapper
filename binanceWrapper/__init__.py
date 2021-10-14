@@ -9,8 +9,8 @@ __author__ = 'Kevin Breto'
 
 import binanceWrapper.utils as utils
 from binanceWrapper.utils import _makeRequest, _requestError, ping, Keys
-from binanceWrapper.exceptions import *
 from binanceWrapper.info import *
+from binanceWrapper.exceptions import *
 from binanceWrapper.margin import *
 
 def setKeys(api, secret):

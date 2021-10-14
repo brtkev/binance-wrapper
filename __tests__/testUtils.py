@@ -1,5 +1,6 @@
 import unittest, binanceWrapper
 
+@unittest.skip
 class TestUtils(unittest.TestCase):
 
 	def testPing(self):

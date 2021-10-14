@@ -18,23 +18,31 @@ def symbolPrice( symbol = ''):
 
   return _makeRequest('GET', f"{API_PATH}{path}", params = keyload)
 
-def symbolLastKlines(symbol : str, interval, limit : int = 500):
+def symbolLastKlines(symbol : str, interval, limit : int = None):
     """
-    Last (500) price bars
-    TIME
-    OPEN
-    HIGH
-    LOW
-    CLOSE
-    VOLUMEN
+    Kline/candlestick bars for a symbol.
+    Klines are uniquely identified by their open time.
+    [openTime, open, high, low, close, volumen, closeTime, ...]
+    """
+    return symbolKlines(symbol, interval, limit)
+
+def symbolKlines(symbol : str, interval : str, limit : int = None, startTime : int = None, endTime : int = None):
+    """
+    Kline/candlestick bars for a symbol.
+    Klines are uniquely identified by their open time.
+    [openTime, open, high, low, close, volumen, closeTime, ...]
     """
     path = "/api/v3/klines"
     keyload = {
         'symbol' : symbol,
         'interval' : interval,
-        'limit' : limit
     }
-    return _makeRequest('GET', f"{API_PATH}{path}", params=keyload)        
+    if limit : keyload['limit'] = limit
+    if startTime : keyload['startTime'] = startTime
+    if endTime : keyload['endTime'] = endTime
+
+    return _makeRequest('GET', f"{API_PATH}{path}", params=keyload)
+
 
 def serverTime():
     """
