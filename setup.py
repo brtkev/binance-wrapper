@@ -9,9 +9,7 @@ setup(
     author_email='kbreto2911@gmail.com',
     license='MIT',
     packages=['binanceWrapper'],
-    install_requires=['python-dotenv==0.19.1',
-                      'requests==2.26.0',          
-                      ],
+    install_requires=['requests==2.26.0'],
     classifiers=[
         'Development Status :: 1 - Planning',
         'Intended Audience :: Trading/Wrapper',
