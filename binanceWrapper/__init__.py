@@ -3,9 +3,11 @@ pyexample.
 
 An example python library.
 """
-
-__version__ = "0.1.0"
-__author__ = 'Kevin Breto'
+import json
+with open("version.json", "r") as f:
+  version = json.loads(f.read())
+__version__ = version['version']
+__author__ = version['author']
 
 import binanceWrapper.utils as utils
 from binanceWrapper.utils import _makeRequest, _requestError, ping, Keys

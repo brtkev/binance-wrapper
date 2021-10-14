@@ -1,26 +1,7 @@
 from setuptools import setup
+import json
 
-setup(
-   name='binanceWrapper',
-    version='0.1.0',    
-    description='a wrapper for binance exchange API',
-    url='https://github.com/brtkev/binance-wrapper',
-    author='Kevin Breto',
-    author_email='kbreto2911@gmail.com',
-    license='MIT',
-    packages=['binanceWrapper'],
-    install_requires=['python-dotenv==0.19.1',
-                      'requests==2.26.0',          
-                      ],
-    classifiers=[
-        'Development Status :: 1 - Planning',
-        'Intended Audience :: Trading/Wrapper',
-        'License :: OSI Approved :: MIT License',  
-        'Operating System :: POSIX :: Linux :: Windows',        
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-    ],
-)
+with open("version.json", "r") as f:
+    version = json.loads(f.read())
+
+setup(**version)
