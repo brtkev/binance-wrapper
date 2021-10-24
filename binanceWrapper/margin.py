@@ -186,6 +186,14 @@ def exchangeInfo(symbol=None, symbols=None):
 
 #-------------------------------------------------- UTILS
 
+def marginAccountAsset(asset : str):
+    """
+        gets an asset from your margin account, ex: BTC \n
+        {'asset': 'BTC', 'free': '0.00067', 'locked': '0', 'borrowed': '0', 'interest': '0', 'netAsset': '0.00067'}
+    """
+    ma = marginAccount()['userAssets']
+    return next(x for x in ma if x['asset'] == asset)
+
 def maxTradable(asset):
     """
     returns the free amount of asset and borrow available of asset
@@ -231,8 +239,7 @@ def payDebts(asset=None):
     for asset in assets:
         if asset['borrowed'] == '0':
             continue
-        elif asset['free'] != '0':
-            if float(asset['free']) >= float(asset['borrowed']) > 0:
+        elif float(asset['free']) >= float(asset['borrowed']) > 0:
                 marginRepay(asset['asset'], asset['borrowed'])
 
 

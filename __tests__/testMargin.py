@@ -2,7 +2,7 @@ import binanceWrapper, os
 import unittest
 from dotenv import load_dotenv
 
-@unittest.skip
+# @unittest.skip
 class TestMarginEndpoints(unittest.TestCase):
 
 	def setUp(cls):
