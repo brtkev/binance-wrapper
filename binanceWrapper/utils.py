@@ -78,3 +78,12 @@ def _requestError(response, code, params):
   else :
       logging.error(response.text + f"\n      params : {json.dumps(params)}\n", stack_info=True)
       raise WrapperError
+
+
+def optionalKey(payload, kwargs, keyName):
+    try:
+        payload[keyName] = kwargs[keyName]
+    except KeyError:
+        pass
+
+

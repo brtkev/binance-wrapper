@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
    name='binanceWrapper',
-    version='1.0.2',    
+    version='1.0.3',    
     description='a wrapper for binance exchange API',
     url='https://github.com/brtkev/binance-wrapper',
     author='Kevin Breto',
