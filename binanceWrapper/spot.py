@@ -4,6 +4,8 @@ from binanceWrapper import Keys, _makeRequest, API_PATH, utils
 def newOCO(symbol : str, side : str, quantity : float, price : float, stopPrice : float, 
         stopLimitPrice : float = '', **kwargs ) -> dict:
     """
+    recommended to grab orderListId out of the response
+
     symbol (str): symbol name\n
     listClientOrderId (Optional[str]): A unique Id for the entire orderList\n
     side (enum): 'BUY' 'SELL'\n
