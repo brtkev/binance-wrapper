@@ -51,7 +51,7 @@ def _makeRequest(method: str, url: str, params=None, **kwargs):
             if callable(call):
                 params = call()
             response = requests.request(method, url, params=params, **kwargs)
-            
+
             print(params)
             if response.status_code == 200:
                 return response.json()
@@ -86,7 +86,7 @@ def getMessage(payload) -> str:
     msg = ''
     for key, val in payload.items():
         msg += f'{key}={val}&'
-    if(msg[-1] == '&'): msg = msg[:-1]
+    if(len(msg) > 0 and msg[-1] == '&'): msg = msg[:-1]
     
     return msg
 
