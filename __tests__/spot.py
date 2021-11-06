@@ -10,4 +10,6 @@ class Spot(unittest.TestCase):
 			binanceWrapper.setKeys(os.getenv('APIKEY'), os.getenv('SECRETKEY'))
 
 	def newOCO(self):
-		binanceWrapper.newOCO(symbol = 'BTCUSDT', side = 'BUY')
+		print(binanceWrapper.newOCO(symbol = 'BTCUSDT', side = 'BUY', quantity=1, price=200, stopPrice=250, 
+        stopLimitPrice=150, stopLimitTimeInForce= 'FOK'))                                               
+    

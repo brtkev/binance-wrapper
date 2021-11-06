@@ -1,24 +1,23 @@
 import hashlib, hmac, time
 from binanceWrapper import Keys, _makeRequest, API_PATH, utils
 
-def newOCO(**kwargs) -> dict:
+def newOCO(symbol : str, side : str, quantity : float, price : float, stopPrice : float, 
+        stopLimitPrice : float = '', **kwargs ) -> dict:
     """
-    Kwargs:
-        symbol (str): symbol name
-        listClientOrderId (Optional[str]): A unique Id for the entire orderList
-        side (enum): 'BUY' 'SELL'
-        quantity (float): 
-        limitClientOrderId (Optional[str]): A unique Id for the limit order
-        price (float):
-        limitIcebergQty (Optional[float]):
-        stopClientOrderId (Optional[str]):
-        stopPrice (float):
-        stopLimitPrice (Optional[float]):
-        stopIcebergQty (Optional[float]):
-        stopLimitTimeInForce (Optional[enum]): 'GTC' 'FOK' 'IOC'
-        newOrderRespType (Optional[enum]): Set the response JSON
-        recvWindow (Optional[float]): The value cannot be greater than 60000
-        timestamp (int):
+    symbol (str): symbol name\n
+    listClientOrderId (Optional[str]): A unique Id for the entire orderList\n
+    side (enum): 'BUY' 'SELL'\n
+    quantity (float): \n
+    limitClientOrderId (Optional[str]): A unique Id for the limit order\n
+    price (float):\n
+    limitIcebergQty (Optional[float]):\n
+    stopClientOrderId (Optional[str]):\n
+    stopPrice (float):\n
+    stopLimitPrice (Optional[float]):\n
+    stopIcebergQty (Optional[float]):\n
+    stopLimitTimeInForce (Optional[enum]): 'GTC' 'FOK' 'IOC'\n
+    newOrderRespType (Optional[enum]): Set the response JSON\n
+    recvWindow (Optional[float]): The value cannot be greater than 60000\n
 
     Price Restrictions:
         SELL: Limit Price > Last Price > Stop Price
@@ -28,23 +27,45 @@ def newOCO(**kwargs) -> dict:
         ICEBERG quantities however do not have to be the same.
     Order Rate Limit
         OCO counts as 2 orders against the order rate limit.
+
+    example newOCO(symbol = 'BTCUSDT', side = 'BUY', quantity=1, price=200, stopPrice=250, 
+    stopLimitPrice=150, stopLimitTimeInForce= 'FOK')
     """
     payload = {
-        'symbol' : kwargs['symbol'],
-        'side' : kwargs['side'],
-        # 'quantity' : kwargs['quantity'],
-        # 'limitClientOrderId' : kwargs['limitClientOrderId'],
-        # 'price' : kwargs['price'],
-        # 'limitIcebergQty' : kwargs['limitIcebergQty'],
-        # 'stopClientOrderId' : kwargs['stopClientOrderId'],
-        # 'stopPrice' : kwargs['stopPrice'],
-        # 'stopLimitPrice': kwargs['stopLimitPrice'],
-        # 'stopIcebergQty': kwargs['stopIcebergQty'],
-        # 'stopLimitTimeInForce': kwargs['stopLimitTimeInForce'],
-        # 'newOrderRespType' : kwargs['newOrderRespType'],
-        # 'recvWindow' : kwargs['recvWindow'],
-        # 'timestamp' : kwargs['timestamp']
+        'symbol' : symbol,
+        'side' : side,
+        'quantity' : quantity,
+        'price' : price,
+        'stopPrice' : stopPrice
     }
-    utils.optionalKey(payload, kwargs, 'listClientOrderId')
+    if stopLimitPrice: payload['stopLimitPrice'] = stopLimitPrice
 
-    pass
+    payload.update(kwargs)
+
+    path = '/api/v3/order/oco'
+
+
+    msg = utils.getMessage(payload)
+    headers = {
+        'X-MBX-APIKEY': Keys.API.get(),
+    }
+
+    def params():
+        nonlocal msg, payload
+        curr_time = int(time.time()*1000)
+        timeMsg = msg + f"&timestamp={curr_time}"
+
+        #signature message
+        sig = hmac.new(
+            bytes(Keys.SECRET.get(), 'latin-1'),
+            msg=bytes(str(timeMsg),'latin-1'),
+            digestmod=hashlib.sha256
+        ).hexdigest().upper()    
+        print(msg)
+        payload['timestamp'] = curr_time
+        payload['signature'] = sig
+
+        return payload
+        
+    return _makeRequest('POST', f"{API_PATH}{path}", params= params, headers=headers)
+
