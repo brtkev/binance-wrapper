@@ -9,6 +9,9 @@ class Spot(unittest.TestCase):
         load_dotenv()
         binanceWrapper.setKeys(os.getenv('APIKEY'), os.getenv('SECRETKEY'))
 
+    def newOrder(self):
+        print(binanceWrapper.newOrder('BTCBUSD', 'BUY', 'MARKET', quoteOrderQty=15, test=True))
+
     def newOCO(self) -> None:
         price = float(binanceWrapper.symbolPrice('BTCBUSD')['price'])
         takePrice = round(price + price * 0.1, 2)

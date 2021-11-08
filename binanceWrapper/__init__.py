@@ -14,6 +14,7 @@ from binanceWrapper.exceptions import *
 from binanceWrapper.margin import *
 from binanceWrapper.spot import *
 
+
 def setKeys(api, secret):
   Keys.API.set(api)
   Keys.SECRET.set(secret)

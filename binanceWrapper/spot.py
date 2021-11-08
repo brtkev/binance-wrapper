@@ -1,6 +1,50 @@
 import hashlib, hmac, time
 from binanceWrapper import Keys, _makeRequest, API_PATH, utils
 
+def newOrder(symbol : str, side : str, type : str, timeInForce : str = None, quantity : float = None,
+quoteOrderQty : float = None, price : float = None, newClientOrderId : str = None, stopPrice : float = None,
+icebergQty : float = None, newOrderRespType : str = None, recvWindow : int = None, test : bool = False ):
+    if test: path = "/api/v3/order/test"
+    else: path = "/api/v3/order"
+    
+    payload = {
+        'symbol' : symbol,
+        'side' : side,
+        'type' : type
+    }
+    if timeInForce: payload['timeInForce'] = timeInForce
+    if quantity: payload['quantity'] = quantity
+    elif quoteOrderQty: payload['quoteOrderQty'] = quoteOrderQty
+    if price: payload['price'] = price
+    if newClientOrderId: payload['newClientOrderId'] = newClientOrderId
+    if stopPrice: payload['stopPrice'] = stopPrice
+    if icebergQty: payload['icebergQty'] = icebergQty
+    if newOrderRespType: payload['newOrderRespType'] = newOrderRespType
+    if recvWindow: payload['recvWindow'] = recvWindow
+
+    msg = utils.getMessage(payload)
+    headers = {
+        'X-MBX-APIKEY': Keys.API.get(),
+    }
+
+    def params():
+        nonlocal msg, payload
+        curr_time = int(time.time()*1000)
+        timeMsg = msg + f"&timestamp={curr_time}"
+
+        #signature message
+        sig = hmac.new(
+            bytes(Keys.SECRET.get(), 'latin-1'),
+            msg=bytes(str(timeMsg),'latin-1'),
+            digestmod=hashlib.sha256
+        ).hexdigest().upper()    
+        payload['timestamp'] = curr_time
+        payload['signature'] = sig
+
+        return payload
+        
+    return _makeRequest('POST', f"{API_PATH}{path}", params= params, headers=headers)
+
 def newOCO(symbol : str, side : str, quantity : float, price : float, stopPrice : float, 
         stopLimitPrice : float = '', **kwargs ) -> dict:
     """
