@@ -52,11 +52,9 @@ def _makeRequest(method: str, url: str, params=None, **kwargs):
                 params = call()
             response = requests.request(method, url, params=params, **kwargs)
 
-            print(params)
             if response.status_code == 200:
                 return response.json()
             else:
-                print(response.json())
                 return _requestError(response, response.json()['code'], params)
 
         except requests.Timeout:

@@ -130,3 +130,37 @@ def queryOCO( orderListId : int = None, listClientOrderId : str = None, recvWind
         return payload
         
     return _makeRequest('GET', f"{API_PATH}{path}", params= params, headers=headers)
+
+
+
+def queryAllOCO( fromId : int = None, startTime : int = None, endTime : int  = None, 
+limit : int = None, recvWindow: int = None):
+    path = '/api/v3/allOrderList'
+    payload = {}
+    if fromId : payload['fromId'] = fromId
+    if startTime : payload['startTime'] = startTime
+    if endTime : payload['endTime'] = endTime
+    if limit : payload['limit'] = limit
+    if recvWindow: payload['recvWindow'] = recvWindow
+    headers = {
+        'X-MBX-APIKEY': Keys.API.get(),
+    }
+    msg = utils.getMessage(payload)
+    def params():
+        nonlocal msg, payload
+        curr_time = int(time.time()*1000)
+        if len(msg) > 0: timeMsg = msg + f"&timestamp={curr_time}"
+        else: timeMsg = msg + f"timestamp={curr_time}"
+
+        #signature message
+        sig = hmac.new(
+            bytes(Keys.SECRET.get(), 'latin-1'),
+            msg=bytes(str(timeMsg),'latin-1'),
+            digestmod=hashlib.sha256
+        ).hexdigest().upper()    
+
+        payload['timestamp'] = curr_time
+        payload['signature'] = sig
+        return payload
+        
+    return _makeRequest('GET', f"{API_PATH}{path}", params= params, headers=headers)

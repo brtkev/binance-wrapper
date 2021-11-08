@@ -26,3 +26,5 @@ class Spot(unittest.TestCase):
     def queryOCO(self, orderListId):
         binanceWrapper.queryOCO(orderListId=orderListId)                        
     
+    def queryAllOCO(self):
+        binanceWrapper.queryAllOCO()
