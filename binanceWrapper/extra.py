@@ -1,7 +1,7 @@
-import binanceWrapper
+import binanceWrapper, time
 
 
-def symbolHistorialKlines(symbol : str, interval : str, startTime : int , endTime : int ):
+def symbolHistorialKlines(symbol : str, interval : str, startTime : str , endTime : str ):
     """fetch klines from startTime to endTime\n"""
     def filterDups(history : list[list]):
         filter = set()
@@ -10,8 +10,8 @@ def symbolHistorialKlines(symbol : str, interval : str, startTime : int , endTim
                 filter.add(bar[0])
                 yield bar 
 
-    startTime *= 1000
-    endTime *= 1000
+    startTime =  int(time.mktime(time.strptime(startTime, "%d %b %Y"))) * 1000
+    endTime = int(time.mktime(time.strptime( endTime, "%d %b %Y"))) * 1000
     klines = []
     while startTime < endTime:
         klines.extend(binanceWrapper.symbolKlines(symbol, interval, 1000, startTime))
