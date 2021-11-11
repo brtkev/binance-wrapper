@@ -16,7 +16,6 @@ def symbolHistorialKlines(symbol : str, interval : str, startTime : int , endTim
     while startTime < endTime:
         klines.extend(binanceWrapper.symbolKlines(symbol, interval, 1000, startTime))
         startTime = klines[-1][0]
-    klines.extend(binanceWrapper.symbolKlines(symbol, interval, startTime=startTime, endTime=endTime))
     return list(filterDups(klines))
 
 
